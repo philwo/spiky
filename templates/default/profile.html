@@ -1,0 +1,22 @@
+{% extends base_site %}
+
+{% block title %}Profile Page{%endblock%}
+
+{%block content %}
+<h2>Profil</h2>
+
+{% if content %}
+<div style="border:1px solid green;">
+{{content}}
+</div>
+{% endif %}
+
+<form method="post" action="">
+	<table>{{ profileform.as_table }}</table>
+	<button type="submit" class="user" >Change</button>
+</form>
+
+<p><a href="/spiky/accounts/password_change/">Passwort ändern</a></p>
+
+{%endblock%}
+

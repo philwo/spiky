@@ -1,0 +1,11 @@
+{% extends base_site %}
+
+{% block title %}Compare revisions{% endblock %}
+
+{% block content %}
+<h2>Compare revisions</h2>
+<h3>{{ page1.name }}::{{ page1.rev }} vs. {{ page2.name }}::{{ page2.rev }}</h3>
+
+{{ htmldiff|safe }}
+
+{% endblock %}

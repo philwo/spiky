@@ -1,0 +1,18 @@
+{% extends base_site %}
+
+{% block title %}Register Page{%endblock%}
+
+{%block content %}
+<h2>Register</h2>
+
+<form method="post" action="">
+	<table>{{ signupform.as_table }}</table>
+	<button type="submit" class="user">Register</button>
+</form>
+
+{% if content %}
+{{content}}
+{% endif %}
+
+{%endblock%}
+

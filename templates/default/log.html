@@ -1,0 +1,19 @@
+{% extends base_site %}
+
+{% block title %}Page Revision Log{%endblock%}
+
+{%block content %}
+<h2>Page Revision Log</h2>
+<h3>{{page_name}}</h3>
+
+<ul>
+{% for page in revisions %}
+	<li>
+		{% ifnotequal page.rev newestrev %}<a href="/compare/{{page.rev}}/{{newestrev}}/">{% endifnotequal %}(Aktuell)</a>
+		{% if page.predecessor %}<a href="/compare/{{page.predecessor.rev}}/{{page.rev}}/">{% endif %}(Vorherige)</a> -
+		Geändert am <a href="/{{page.name}}/{{page.rev}}/">{{page.last_modified}}</a>
+		von {{page.last_modified_by.username}}</li>
+{% endfor %}
+</ul>
+
+{%endblock%}

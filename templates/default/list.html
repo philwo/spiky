@@ -1,0 +1,27 @@
+﻿{% extends base_site %}
+
+{% block title %}List Page{%endblock%}
+
+{%block content %}
+<h2>List Page</h2>
+
+{% if pages %}
+<h3>Index</h3>
+<h5>Rest</h5>
+<ul>
+{% for page in pages %}
+	<li><a href="/{{page.name|escape}}/">{{page.name|escape}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if users %}
+<h5>User-List</h5>
+<ul>
+{% for user in users %}
+	<li>{{user.username}}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{%endblock%}

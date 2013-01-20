@@ -1,0 +1,12 @@
+﻿{% extends base_site %}
+
+{% block title %}TagCloud{% endblock %}
+
+{% block content %}
+<h2>TagCloud</h2>
+{% for tag in tags %}
+<span style="font-size: {{ tag.font_size }}px;">
+	<a class="link-typeA" title="Number of entries: {{ tag.total_ref }}" href="/spiky/tags/{{ tag.name }}/">{{ tag.name }}</a>
+</span>
+{% endfor %}
+{% endblock %}

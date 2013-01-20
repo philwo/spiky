@@ -1,0 +1,44 @@
+{% extends base_site %}
+
+{% block title %}Search Page{%endblock%}
+
+{%block content %}
+<h2>Search Page</h2>
+
+<form method="post" action="">
+	<table>{{form.as_table}}</table>
+	<br/>
+	<button type="submit" class="search">Search</button>
+</form>
+{% if content %}
+{{content}}
+{% endif %}
+
+{% if matches_title %}
+<h3>Searchresults for page name</h3>
+<ul>
+{% for page in matches_title %}
+	<li><a href="/{{page.name|escape}}/">{{page.name|escape}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if matches_contents %}
+<h3>Searchresults for page contents</h3>
+<ul>
+{% for page in matches_contents %}
+	<li><a href="/{{page.name|escape}}/">{{page.name|escape}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if matches_tags %}
+<h3>Searchresults for tags in pages</h3>
+<ul>
+{% for page in matches_tags %}
+	<li><a href="/{{page.name|escape}}/">{{page.name|escape}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{%endblock%}

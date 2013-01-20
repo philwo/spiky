@@ -1,0 +1,56 @@
+{% extends base_site %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+	function showdetaildiv(which) {
+		Ext.select(".cal_detail_div").setStyle("display", "none");
+		Ext.get(which).setStyle("display", "block");
+	}
+</script>
+{% endblock %}
+
+{% block content %}
+<h2>Calendar: {{ current }}</h2>
+<p><a href="{{ prevmonth }}">prev</a> / <a href="{{ nextmonth }}">next</a></p>
+<table id="cal_month_calendar">
+	<tr>
+		{% for day in headers %}
+		<th>{{ day|date:"D"|slice:":2" }}</th>
+		{% endfor %}
+	</tr>
+
+	{% for week in calendar %}
+	<tr>
+		{% for day in week %}
+		<td{% if not day.in_month %} class="cal_not_in_month"{% endif %}>
+			{% if day.event %}<a onclick="showdetaildiv('div{{ day.day|date:"dmY" }}');return false;" href="#">{{ day.day|date:"j" }}</a>
+			{% else %}{{ day.day|date:"j" }}{% endif %}
+		</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+
+{% for week in calendar %}
+{% for day in week %}
+{% if day.event %}
+<div class="cal_detail_div" id="div{{ day.day|date:"dmY" }}">
+<a name="{{ day.day|date:"dmY" }}"><h3>Änderungen am {{ day.day|date:"d.m.Y" }}:</h3></a>
+<ul>
+{% for p in day.pages %}
+	<dt><a href="/uid/{{ p.uid }}/">{{ p.name }}</a></dt>
+	{% if p.last_modified_end %}
+	<dd>zwischen {{ p.last_modified|date:"H:i" }} und {{ p.last_modified_end|date:"H:i" }} Uhr genau {{ p.modify_count }} mal<br />
+	{% else %}
+	<dd>um {{ p.last_modified|date:"H:i" }} Uhr<br />
+	{% endif %}
+	von {{ p.last_modified_by }}</dd>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endblock %}

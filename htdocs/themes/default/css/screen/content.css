@@ -1,0 +1,472 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Uniform design of standard content elements
+ * (de) Einheitliche Standardformatierungen für die wichtigten Inhalts-Elemente
+ *
+ * @copyright       Copyright 2005-2007, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.0.4
+ * @revision        $Revision: 138 $
+ * @lastmodified    $Date: 2007-11-19 21:05:33 +0100 (Mo, 19 Nov 2007) $
+ * @appdef yaml
+ */
+
+@media all
+{
+	/**
+	* Fonts
+	* (en) font-family and font-size selection for headings and standard text elements
+	* (de) Zeichensatz und Schriftgrößen für Überschriften und übliche Text-Elemente
+	*
+	* @section content-fonts
+	*/
+
+	/* (en) reset font size for all elements to standard (16 Pixel) */
+	/* (de) Alle Schriftgrößen auf Standardgröße (16 Pixel) zurücksetzen */
+	html * { font-size: 100.01% }
+
+	/* (en) reset monospaced elements to font size 16px in Gecko browsers */
+	/* (de) Schriftgröße von monospaced Elemente auf 16 Pixel setzen */
+	textarea, pre, tt, code {
+		font-family:"Courier New", Courier, monospace;
+	}
+
+	/* (en) base layout gets standard font size 12px */
+	/* (de) Basis-Layout erhält Standardschriftgröße von 12 Pixeln */
+	body {
+		font-family: "Bitstream Vera Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, Helvetica, Arial, sans-serif;
+		font-size: 75.00%;
+		color: #444;
+	}
+
+	h1,h2,h3,h4,h5,h6 {
+		font-family: "Trebuchet MS", Helvetica, sans-serif;
+		font-weight:bold;
+		color:#666;
+		margin: 0 0 0.25em 0;
+	}
+
+	h1 { font-size: 175% }                        /* 24px */
+	h2 { font-size: 175%; color:#182E7A}          /* 24px */
+	h3 { font-size: 150% }                        /* 18px */
+	h4 { font-size: 133.33% }                     /* 16px */
+	h5 { font-size: 116.67% }                     /* 14px */
+	h6 { font-size: 116.67%; font-style:italic }  /* 14px */
+
+	#header h1 {
+		font-size:2.5em;
+		letter-spacing:-2px;
+		line-height:65%;
+		color:#000;
+	}
+
+	#header span {
+		color:#999;
+	}
+
+	p { line-height: 1.5em; margin: 0 0 1em 0; }
+
+	/* ### Lists | Listen  #### */
+
+	ul, ol, dl { line-height: 1.5em; margin: 0 0 1em 1em }
+	li { margin-left: 1.5em; line-height: 1.5em }
+
+	dt { font-weight: bold }
+	dd { margin: 0 0 1em 2em }
+
+	/* ### text formatting | Textauszeichnung ### */
+
+	cite, blockquote { font-style:italic }
+	blockquote { margin: 0 0 1em 1.5em }
+
+	strong,b { font-weight: bold }
+	em,i { font-style:italic }
+
+	pre, code { font-family: monospace; font-size: 1.1em; }
+
+	acronym, abbr {
+		letter-spacing: .07em;
+		border-bottom: .1em dashed #c00;
+		cursor: help;
+	}
+
+	/**
+	* Generic Content Classes
+	* (en) standard classes for positioning and highlighting
+	* (de) Standardklassen zur Positionierung und Hervorhebung
+	*
+	* @section content-generic-classes
+	*/
+
+	.note {background: #dfd; padding: 1em; border-top: 1px #bdb dotted; border-bottom: 1px #bdb dotted;}
+	.important {background: #ffd; padding: 1em; border-top: 1px #ddb dotted; border-bottom: 1px #ddb dotted;}
+	.warning {background: #fdd; padding: 1em; border-top: 1px #dbb dotted; border-bottom: 1px #dbb dotted;}
+
+	.float_left { float: left; display:inline; margin-right: 1em; margin-bottom: 0.15em;  }
+	.float_right { float: right; display:inline; margin-left: 1em; margin-bottom: 0.15em;  }
+	.center { text-align:center; margin: 0.5em auto }
+
+	/**
+	* External Links
+	*
+	* (en) Formatting of hyperlinks
+	* (de) Gestaltung von Hyperlinks
+	*
+	*/
+
+	a {color: #027ac6; text-decoration:none;}
+	a:focus,
+	a:hover,
+	a:active {color:#E89A03; text-decoration:underline;}
+
+	#topnav a { color: #999; font-weight: normal; background:transparent; text-decoration:none; }
+	#topnav a:focus,
+	#topnav a:hover,
+	#topnav a:active { text-decoration:underline; background-color: transparent;}
+
+	#footer a { color: #999; background:transparent; font-weight: bold;}
+	#footer a:focus,
+	#footer a:hover,
+	#footer a:active {color: #4D87C7; background-color: transparent; text-decoration:underline;}
+
+	/**
+	* (en) Emphasizing external Hyperlinks via CSS
+	* (de) Hervorhebung externer Hyperlinks mit CSS
+	*
+	* @section             content-external-links
+	* @app-yaml-default    disabled
+	*/
+
+	/*
+	#main a[href^="http://www.my-domain.com"],
+	#main a[href^="https://www.my-domain.com"]
+	{
+		padding-left: 12px;
+		background-image: url('your_image.gif');
+		background-repeat: no-repeat;
+		background-position: 0 0.45em;
+	}
+	*/
+
+	/**
+	* Tables | Tabellen
+	* (en) Generic classes for table-width and design definition
+	* (de) Generische Klassen für die Tabellenbreite und Gestaltungsvorschriften für Tabellen
+	*
+	* @section content-tables
+	*/
+
+	table { width: auto; border-collapse:collapse; margin-bottom: 0.5em; }
+	table.full { width: 100%; }
+	table.fixed { table-layout:fixed }
+
+	th,td { padding: 0.5em; }
+	thead th { background: #444; color: #fff }
+	tbody th { background: #ccc; color: #333 }
+	tbody th.sub { background: #ddd; color: #333 }
+
+	/**
+	* Miscellaneous | Sonstiges
+	*
+	* @section content-misc
+	*/
+
+	hr {
+		color: #fff;
+		background:transparent;
+		margin: 0 0 0.5em 0;
+		padding: 0 0 0.5em 0;
+		border:0;
+		border-bottom: 1px #eee solid;
+	}
+
+
+	input[type=button],input[type=submit] {
+		background-repeat: no-repeat;
+		background-position: 4px 3px;
+		text-indent:25px;
+		text-align:left;
+		background-color:#FFF;
+		border:1px solid #CCC;
+		padding:2px;
+		display:inline;
+	}
+	button[type=button],button[type=submit] {
+		background-repeat: no-repeat;
+		background-position: 4px 2px;
+		text-indent:25px;
+		text-align:left;
+		background-color:#FFF;
+		border:1px solid #CCC;
+		padding:2px;
+		display:inline;
+	}
+	#btn_apply {
+		background-image: url(/static/themes/default/img/famfamfam/accept.png);
+		}
+	#btn_hide_preview {
+		background-image: url(/static/themes/default/img/famfamfam/eye.png);
+	}
+	#btn_bold{
+		background-image: url(/static/themes/default/img/famfamfam/text_bold.png);
+	}
+	#btn_italic{
+		background-image: url(/static/themes/default/img/famfamfam/text_italic.png);
+	}
+	#btn_underline{
+		background-image: url(/static/themes/default/img/famfamfam/text_underline.png);
+	}
+	#btn_headline{
+		background-image: url(/static/themes/default/img/famfamfam/text_heading_1.png);
+	}
+	#btn_link{
+		background-image: url(/static/themes/default/img/famfamfam/link_add.png);
+	}
+	#btn_newline{
+		background-image: url(/static/themes/default/img/famfamfam/table_row_insert.png);
+	}
+	#btn_formatted{
+		background-image: url(/static/themes/default/img/famfamfam/page_white_text.png);
+	}
+	#btn_search{
+		background-image: url(/static/themes/default/img/famfamfam/find.png);
+	}
+	#btn_user{
+		background-image: url(/static/themes/default/img/famfamfam/user.png);
+	}
+	small{
+		font-size:0.7em;
+	}
+	#content>table td{
+		background-color:#FFF
+	}
+
+  	/* Syntax highlighting environment */
+  	.diff { font-family:"Courier New", Courier, monospace; }
+  	.diff_sub { color: #A00000; font-weight: bold; }
+	.diff_add { color: #00A000; font-weight: bold; }
+	.diff_next { display: none }
+	.diff_header { display: none }
+
+	.syntax  { background: #f0f0f0; }
+	.syntax pre { white-space: normal; }
+	.syntax .c { color: #60a0b0; font-style: italic } /* Comment */
+	.syntax .err { border: 1px solid #FF0000 } /* Error */
+	.syntax .k { color: #007020; font-weight: bold } /* Keyword */
+	.syntax .o { color: #666666 } /* Operator */
+	.syntax .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+	.syntax .cp { color: #007020 } /* Comment.Preproc */
+	.syntax .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+	.syntax .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+	.syntax .gd { color: #A00000 } /* Generic.Deleted */
+	.syntax .ge { font-style: italic } /* Generic.Emph */
+	.syntax .gr { color: #FF0000 } /* Generic.Error */
+	.syntax .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+	.syntax .gi { color: #00A000 } /* Generic.Inserted */
+	.syntax .go { color: #808080 } /* Generic.Output */
+	.syntax .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+	.syntax .gs { font-weight: bold } /* Generic.Strong */
+	.syntax .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+	.syntax .gt { color: #0040D0 } /* Generic.Traceback */
+	.syntax .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+	.syntax .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+	.syntax .kp { color: #007020 } /* Keyword.Pseudo */
+	.syntax .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+	.syntax .kt { color: #902000 } /* Keyword.Type */
+	.syntax .m { color: #40a070 } /* Literal.Number */
+	.syntax .s { color: #4070a0 } /* Literal.String */
+	.syntax .na { color: #4070a0 } /* Name.Attribute */
+	.syntax .nb { color: #007020 } /* Name.Builtin */
+	.syntax .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+	.syntax .no { color: #60add5 } /* Name.Constant */
+	.syntax .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+	.syntax .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+	.syntax .ne { color: #007020 } /* Name.Exception */
+	.syntax .nf { color: #06287e } /* Name.Function */
+	.syntax .nl { color: #002070; font-weight: bold } /* Name.Label */
+	.syntax .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+	.syntax .nt { color: #062873; font-weight: bold } /* Name.Tag */
+	.syntax .nv { color: #bb60d5 } /* Name.Variable */
+	.syntax .ow { color: #007020; font-weight: bold } /* Operator.Word */
+	.syntax .w { color: #bbbbbb } /* Text.Whitespace */
+	.syntax .mf { color: #40a070 } /* Literal.Number.Float */
+	.syntax .mh { color: #40a070 } /* Literal.Number.Hex */
+	.syntax .mi { color: #40a070 } /* Literal.Number.Integer */
+	.syntax .mo { color: #40a070 } /* Literal.Number.Oct */
+	.syntax .sb { color: #4070a0 } /* Literal.String.Backtick */
+	.syntax .sc { color: #4070a0 } /* Literal.String.Char */
+	.syntax .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+	.syntax .s2 { color: #4070a0 } /* Literal.String.Double */
+	.syntax .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+	.syntax .sh { color: #4070a0 } /* Literal.String.Heredoc */
+	.syntax .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+	.syntax .sx { color: #c65d09 } /* Literal.String.Other */
+	.syntax .sr { color: #235388 } /* Literal.String.Regex */
+	.syntax .s1 { color: #4070a0 } /* Literal.String.Single */
+	.syntax .ss { color: #517918 } /* Literal.String.Symbol */
+	.syntax .bp { color: #007020 } /* Name.Builtin.Pseudo */
+	.syntax .vc { color: #bb60d5 } /* Name.Variable.Class */
+	.syntax .vg { color: #bb60d5 } /* Name.Variable.Global */
+	.syntax .vi { color: #bb60d5 } /* Name.Variable.Instance */
+	.syntax .il { color: #40a070 } /* Literal.Number.Integer.Long */
+
+	.revisions fieldset{
+		clear: both;
+		font-size: 100%;
+		border-color: #4D87C7;
+		border-width: 1px 0 0 0;
+		border-style: solid none none none;
+		padding: 10px;
+		margin: 10px 0 0 0
+	}
+	.revisions fieldset legend{
+		font-weight: normal;
+		margin: 0 0 0 0;
+		padding: 0 5px;
+		font-size:14px;
+		color:#4D87C7;
+		font-weight:bold;
+	}
+
+	#mergeform table {
+		width: 100%;
+	}
+
+	#mergeform th {
+		background-color: white;
+		font-weight: normal;
+	}
+
+	#mergeform th span {
+		font-weight: bold;
+	}
+
+	#mergeform td.left {
+		width: 50%;
+		vertical-align: top;
+	}
+
+	#mergeform td.left div {
+		width: 37em;
+	}
+
+	#mergeform td.left div div {
+		border: 1px solid #c50405;
+		font-family: "Courier New", Courier, monospace;
+		padding: 4px;
+		overflow: auto;
+	}
+
+	#mergeform td.left textarea {
+		margin-top: 12px;
+		border: 1px solid #c50405;
+		font-size: 0.9em;
+		width: 100%;
+		padding: 4px;
+		display: none;
+	}
+
+	#mergeform td.right {
+		width: 50%;
+		vertical-align: top;
+	}
+
+	#mergeform td.right div {
+		width: 37em;
+	}
+
+	#mergeform td.right div div {
+		border: 1px solid #4D87C7;
+		font-family: "Courier New", Courier, monospace;
+		padding: 4px;
+		overflow: auto;
+	}
+
+	#mergeform td.right textarea {
+		margin-top: 12px;
+		border: 1px solid #4D87C7;
+		font-size: 0.9em;
+		width: 100%;
+		padding: 4px;
+		display: none;
+	}
+
+	/* EDIT PAGE */
+
+	#createform #div_syntaxes {
+		float: right;
+		height: 25px;
+		margin-right: 15px;
+	}
+
+	#createform #content_id {
+		width: 100%;
+		height: 300px;
+	}
+
+	#createform #td_edit {
+		width: 100%;
+		vertical-align: top;
+	}
+
+	#createform button.bold {
+		font-weight: bold;
+	}
+
+	#createform button.italic {
+		font-style: italic;
+	}
+
+	#createform #td_preview {
+		width: 0%;
+		vertical-align: top;
+	}
+
+	#createform #preview {
+		vertical-align: top;
+		border: 1px solid grey;
+		width: 100%;
+		display: none;
+		overflow: scroll;
+	}
+
+	#pageops {
+		font-size:0.9em;
+		line-height:1.5em;
+		margin-bottom: 0;
+		margin-left: 0;
+	}
+
+	#pageops li {
+		display: inline;
+		list-style-type: none;
+		padding-right: 8px;
+	}
+
+	/* CALENDAR */
+	#cal_month_calendar {
+	}
+
+	.cal_month_calendar th {
+		font-weight: bold;
+		text-align: center;
+	}
+
+	.cal_not_in_month {
+		color:#CCC;
+	}
+
+	.cal_not_in_month a {
+		color:#CCC;
+	}
+
+	.cal_detail_div {
+		display: none;
+	}
+}
+

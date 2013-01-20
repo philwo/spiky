@@ -1,0 +1,13 @@
+{% extends base_site %}
+
+{% block title %}{{ page_name }}{% endblock %}
+
+{% block content %}
+<h2>{{ page_name }}</h2>
+<ul>
+{% for page in pages %}
+	<li><a href="/{{page.name|escape}}/">{{page.name|escape}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
+

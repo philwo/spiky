@@ -1,0 +1,20 @@
+{% extends base_site %}
+
+{% block title %}{{page_name}}{%endblock%}
+
+{% block content %}
+<h2>{{page_name}}</h2>
+{{content|safe}}
+{% endblock %}
+
+{% block footer %}
+<ul id="pageops">
+	<li><a href="/{{page_name}}/edit/">Edit</a></li>
+	{% if oldrev %}<li><a href="/{{page_name}}/{{rev}}/restore/">Restore</a></li>{% endif %}
+	<li><a href="/{{page_name}}/delete/">Delete</a></li>
+	<li><a href="/{{page_name}}/log/">Log</a></li>
+	<li><a href="/spiky/compile/">Rebuild</a></li>
+	<!--<li>UID: {{uid}} / Revision: {{rev}}</li>-->
+</ul>
+{% endblock %}
+

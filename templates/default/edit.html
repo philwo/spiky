@@ -1,0 +1,190 @@
+{% extends base_site %}
+
+{% block title %}{{ page_name }} - Edit{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+	var showing_preview = false;
+
+	function input(name, aTag, eTag) {
+		//var input = Ext.get(name);
+		var input = document.forms["createform"].elements["content"];
+		input.focus();
+
+		/* für Internet Explorer */
+		if (typeof document.selection != "undefined") {
+			/* Einfügen des Formatierungscodes */
+			var range = document.selection.createRange();
+			var insText = range.text;
+			range.text = aTag + insText + eTag;
+
+			/* Anpassen der Cursorposition */
+			range = document.selection.createRange();
+			if (insText.length == 0) {
+				range.move("character", -eTag.length);
+			} else {
+				range.moveStart("character", aTag.length + insText.length + eTag.length);
+			}
+
+			range.select();
+		}
+		/* für neuere auf Gecko basierende Browser */
+		else if (typeof input.selectionStart != "undefined")
+		{
+			/* Einfügen des Formatierungscodes */
+			var start = input.selectionStart;
+			var end = input.selectionEnd;
+			var insText = input.value.substring(start, end);
+			input.value = input.value.substr(0, start) + aTag + insText + eTag + input.value.substr(end);
+
+			/* Anpassen der Cursorposition */
+			var pos;
+			if (insText.length == 0) {
+				pos = start + aTag.length;
+			} else {
+				pos = start + aTag.length + insText.length + eTag.length;
+			}
+			input.selectionStart = pos;
+			input.selectionEnd = pos;
+		}
+	}
+
+	function checkDropdownOption(feld) {
+		return feld.options[feld.selectedIndex].value;
+	}
+
+	function toggle_creole() {
+		var ws = Ext.get("wikisyntax");
+		var val = ws.options[ws.selectedIndex].value;
+
+		if (val == "creole") {
+			//new Effect.BlindDown(Ext.get("creole_syntax"));
+			Ext.get("creole_syntax").show();
+		} else {
+			//new Effect.BlindUp(Ext.get("creole_syntax"));
+			Ext.get("creole_syntax").hide();
+		}
+	}
+
+	Ext.onReady(function() {
+		Ext.get("wikisyntax").on("change", function() {
+				toggle_creole();
+			});
+
+		Ext.get("content_id").on("keyup", function() {
+				if (showing_preview == true)
+				{
+					var mgr = Ext.Updater("preview");
+					mgr.showLoadIndicator = false;
+
+					mgr.update({
+							url: "/spiky/preview/",
+							params: Ext.Ajax.serializeForm(Ext.get("createform").dom),
+							callback: function(el, success, response, options) {
+								var preview = Ext.get("preview");
+								preview.show();
+								Ext.get("content_id").setStyle("height", Math.max(preview.getHeight(), 40) - 20 + "px");
+							}
+						});
+				}
+			});
+
+		Ext.get("btn_show_preview").on("click", function() {
+				Ext.get("td_edit").setStyle("width", "37em");
+				Ext.get("td_preview").setStyle("width", "37em");
+
+				var preview = Ext.get("preview");
+				preview.load({
+						url: "/spiky/preview/",
+						params: Ext.Ajax.serializeForm(Ext.get("createform").dom),
+						text: "Updating ...",
+						callback: function(el, success, response, options) {
+							preview.show();
+							Ext.get("content_id").setStyle("height", Math.max(preview.getHeight(), 40) - 20 + "px");
+							showing_preview = true;
+						}
+					});
+			});
+
+		Ext.get("btn_hide_preview").on("click", function() {
+				showing_preview = false;
+				Ext.get("td_edit").setStyle("width", "100%");
+				Ext.get("preview").update("");
+				Ext.get("td_preview").setWidth(0);
+			});
+
+		Ext.get("btn_bold").on("click", function() {
+				input("content_id","**","**");
+			});
+
+		Ext.get("btn_italic").on("click", function() {
+				input("content_id","//","//");
+			});
+
+		Ext.get("btn_headline").on("click", function() {
+				input("content_id","= "," =");
+			});
+
+		Ext.get("btn_link").on("click", function() {
+				input("content_id","[[","]]");
+			});
+
+		Ext.get("btn_newline").on("click", function() {
+				input("content_id","\\\\","");
+			});
+
+		Ext.get("btn_formatted").on("click", function() {
+				input("content_id","&#123;&#123;&#123;","&#125;&#125;&#125;");
+			});
+	})
+</script>
+{% endblock %}
+{% block content %}
+<h2>{{ page_name }}</h2>
+<form method="POST" id="createform" action="/spiky/{{ page_name }}/save/">
+	<div id="div_syntaxes">
+		Wiki-Syntax:
+		<select id="wikisyntax" name="wikisyntax">
+			<option value="creole" {% ifequal wikisyntax.name "creole" %}selected="selected"{% endifequal %}>Creole</option>
+			<option value="textile"{% ifequal wikisyntax.name "textile" %}selected="selected"{% endifequal %}>Textile</option>
+			<option value="markdown" {% ifequal wikisyntax.name "markdown" %}selected="selected"{% endifequal %}>Markdown</option>
+			<option value="restructuredtext" {% ifequal wikisyntax.name "restructuredtext" %}selected="selected"{% endifequal %}>ReST (ReStructured Text)</option>
+		</select>
+	</div>
+	{% if uid %}
+	<input type="text" name="page_name" value="{{ page_name }}" />
+	{% else %}
+	<div style="height:20px;">&nbsp;</div>
+	{% endif %}
+
+	<table style="width:100%;">
+		<tr>
+			<td id="td_edit">
+				<div id="creole_syntax" {% ifnotequal wikisyntax.name "creole" %} style="display:none"{% endifnotequal %}>
+					<button type="button" id="btn_bold">fett</button>
+					<button type="button" id="btn_italic">kursiv</button>
+					<button type="button" id="btn_headline">Überschrift 1</button>
+					<button type="button" id="btn_link">Link</button>
+					<button type="button" id="btn_newline">Zeilenumbruch</button>
+					<button type="button" id="btn_formatted">Preformatted Text</button><br />
+					<small><a href="http://www.wikicreole.org/wiki/Creole1.0">weitere Wiki-Syntax</a></small>
+				</div>
+
+				<textarea name="content" id="content_id">{{ content }}</textarea>
+			</td>
+			<td id="td_preview">
+				<div id="preview">
+					Please change content to see the preview.
+				</div>
+			</td>
+		</tr>
+	</table>
+	<button type="button" id="btn_show_preview">show preview</button><br />
+	<button type="button" id="btn_hide_preview">hide preview</button><br />
+	{% if uid %}
+	<input type="hidden" value="{{ uid }}" name="uid" />
+	<input type="hidden" value="{{ rev }}" name="rev" />
+	{% endif %}
+	<button type="submit" id="btn_apply">Save Page</button>
+</form>
+{% endblock %}

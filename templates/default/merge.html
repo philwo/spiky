@@ -1,0 +1,85 @@
+{% extends base_site %}
+
+{% block title %}{{ page_name }} - Merge{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+	Ext.onReady(function() {
+		Ext.get("ours_div").on("click", function() { showedit("ours"); });
+		Ext.get("theirs_div").on("click", function() { showedit("theirs"); });
+		Ext.get("ours_save").on("click", function() {
+				Ext.get("save_content").dom.value = Ext.get("ours_ta").dom.value;
+				Ext.get("submitform").dom.submit();
+			});
+		Ext.get("theirs_save").on("click", function() {
+				Ext.get("save_content").dom.value = Ext.get("theirs_ta").dom.value;
+				Ext.get("submitform").dom.submit();
+			});
+	})
+
+	function showdiff(which) {
+		Ext.get(which + "_ta").setStyle("display", "none");
+		Ext.get(which + "_div").setStyle("display", "block");
+	}
+
+	function showedit(which) {
+		var div = Ext.get(which + "_div");
+
+		if (div.isVisible())
+		{
+			Ext.get(which + "_ta").applyStyles({
+						height: div.getHeight() + "px",
+						display: "block"
+					});
+
+			div.setStyle("display", "none");
+		}
+	}
+</script>
+{% endblock %}
+{% block content %}
+<h2>Merge: {{ page_name }}</h2>
+<form id="mergeform" action="#">
+	<div>
+		<table>
+			<tr>
+				<th class="left">
+					<span>ours</span> -
+					<a href="#" onclick="showdiff('ours'); return false;">diff</a> -
+					<a href="#" onclick="showedit('ours'); return false;">edit</a>
+				</th>
+				<th class="right">
+					<span>theirs</span> -
+					<a href="#" onclick="showdiff('theirs'); return false;">diff</a> -
+					<a href="#" onclick="showedit('theirs'); return false;">edit</a>
+				</th>
+			</tr>
+			<tr>
+				<td class="left">
+					<div id="ours_div" class="syntax">{{ diff_ours|safe|linebreaks }}</div>
+					<textarea id="ours_ta">{{ content_ours }}</textarea>
+					<button type="button" name="ours_save" id="ours_save" class="apply" style="margin-top: 8px">Save this version</button>
+				</td>
+				<td class="right">
+					<div id="theirs_div" class="syntax">{{ diff_theirs|safe|linebreaks }}</div>
+					<textarea id="theirs_ta">{{ content_theirs }}</textarea>
+					<button type="button" name="theirs_save" id="theirs_save" class="apply" style="margin-top: 8px">Save this version</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+
+<form method="post" action="/spiky/{{ page_name }}/save/" style="display:none;" id="submitform">
+	<div>
+		<!-- FIXME wikisyntax noch übergeben! -->
+		<input type="hidden" value="creole" name="wikisyntax" />
+		<textarea name="content" id="save_content"></textarea>
+		{% if uid %}
+		<input type="hidden" value="{{ page_name }}" name="page_name" />
+		<input type="hidden" value="{{ uid }}" name="uid" />
+		<input type="hidden" value="{{ rev_ours }}" name="rev" />
+		{% endif %}
+	</div>
+</form>
+{% endblock %}
